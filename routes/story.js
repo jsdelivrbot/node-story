@@ -16,15 +16,21 @@ router.post('/', (req, res, next) => {
     console.log('Dialogflow Request body: ' + JSON.stringify(req.body));
     console.log(req.body.queryResult.parameters.title);
     const title = req.body.queryResult.parameters.title.toLowerCase();
-    fs.readFile(path.join(__dirname, 'stories', title + '.txt'), function (r) {
-        console.log(r)
+    fs.readFile(path.join(__dirname, '..', 'stories', title + '.txt'), function (err, data) {
+        if (err) {
+            const message = {
+                "fulfillmentText": 'Je nài pas trouvé l\'histoire de ' + req.body.queryResult.parameters.title,
+                "source": 'StoryService'
+            };
+            res.send(message);
+        }
         const message = {
             "fulfillmentText": 'Je vais raconter l\'histoire de ' + req.body.queryResult.parameters.title,
             "fulfillmentMessages": [
                 {
                     "card": {
                         "title": title.toUpperCase(),
-                        "subtitle": r,
+                        "subtitle": data,
                         "imageUri": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
                         "buttons": [
                             {
