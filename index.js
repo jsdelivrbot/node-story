@@ -3,7 +3,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const lessMiddleware = require('less-middleware');
 const logger = require('morgan');
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5000;
 
 const indexRouter = require('./routes/index');
 const storyRouter = require('./routes/story');
