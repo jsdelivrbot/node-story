@@ -17,7 +17,7 @@ router.post('/', (req, res, next) => {
     console.log(req.body.queryResult.parameters.title);
     const title = req.body.queryResult.parameters.title.toLowerCase();
     fs.readFile(path.join(__dirname, 'stories', title + '.txt'), function (r) {
-
+        console.log(r)
         const message = {
             "fulfillmentText": 'Je vais raconter l\'histoire de ' + req.body.queryResult.parameters.title,
             "fulfillmentMessages": [
