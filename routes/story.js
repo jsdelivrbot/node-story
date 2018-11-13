@@ -8,7 +8,39 @@ const imageUrl = 'https://lh3.googleusercontent.com/Nu3a6F80WfixUqf_ec_vgXy_c0-0
 /* GET users listing. */
 router.get('/:name', (req, res, next) => {
     console.log(req.params)
-    res.send('respond ' + req.params.name);
+    const title = req.params.name.toLowerCase();
+    fs.readFile(path.join(__dirname, '..', 'stories', title + '.txt'), 'utf8', function (err, data) {
+        if (err) {
+            console.error(err)
+            const message = {
+                "fulfillmentText": 'Je n\'ai pas trouvé l\'histoire de ' + req.params.name,
+                "source": 'StoryService'
+            };
+            res.send(message);
+        } else {
+            console.log(data)
+            const message = {
+                "fulfillmentText": 'Je vais raconter l\'histoire de ' + req.params.name,
+                "fulfillmentMessages": [
+                    {
+                        "card": {
+                            "title": title.toUpperCase(),
+                            "subtitle": data,
+                            "imageUri": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
+                            "buttons": [
+                                {
+                                    "text": "button text",
+                                    "postback": "https://assistant.google.com/"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "source": 'StoryService'
+            };
+            res.send(message);
+        }
+    });
 });
 
 router.post('/', (req, res, next) => {
@@ -16,7 +48,7 @@ router.post('/', (req, res, next) => {
     console.log('Dialogflow Request body: ' + JSON.stringify(req.body));
     console.log(req.body.queryResult.parameters.title);
     const title = req.body.queryResult.parameters.title.toLowerCase();
-    fs.readFile(path.join(__dirname, '..', 'stories', title + '.txt'), function (err, data) {
+    fs.readFile(path.join(__dirname, '..', 'stories', title + '.txt'), 'utf8', function (err, data) {
         if (err) {
             console.error(err)
             const message = {
