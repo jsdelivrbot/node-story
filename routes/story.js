@@ -62,6 +62,9 @@ router.post('/', (req, res, next) => {
                 "fulfillmentText": 'Je vais raconter l\'histoire de ' + req.body.queryResult.parameters.title,
                 "fulfillmentMessages": [
                     {
+
+                        "text": 'Je vais raconter l\'histoire de ' + req.body.queryResult.parameters.title
+                    },  {
                         "card": {
                             "title": title.toUpperCase(),
                             "subtitle": data,
