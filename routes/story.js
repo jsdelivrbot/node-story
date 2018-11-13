@@ -9,7 +9,10 @@ router.get('/:name', (req, res, next)  => {
 
 router.post('/', (req, res, next)  => {
   console.log(req.params)
-    res.send('respond ' + req.params);
+    const message = {
+        message: 'Je vais raconter l\'histoire de toto'
+    };
+    res.send(message);
 });
 
 module.exports = router;
