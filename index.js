@@ -1,22 +1,21 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var lessMiddleware = require('less-middleware');
-var logger = require('morgan');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const lessMiddleware = require('less-middleware');
+const logger = require('morgan');
+const PORT = process.env.PORT || 5000
 
-var indexRouter = require('./routes/index');
-var storyRouter = require('./routes/story');
+const indexRouter = require('./routes/index');
+const storyRouter = require('./routes/story');
 
-var index = express();
 
-index.use(logger('dev'));
-index.use(express.json());
-index.use(express.urlencoded({ extended: false }));
-index.use(cookieParser());
-index.use(lessMiddleware(path.join(__dirname, 'public')));
-index.use(express.static(path.join(__dirname, 'public')));
+express().use(logger('dev'))
+    .use(express.json())
+    .use(express.urlencoded({extended: false}))
+    .use(cookieParser())
+    .use(lessMiddleware(path.join(__dirname, 'public')))
+    .use(express.static(path.join(__dirname, 'public')))
+    .use('/', indexRouter)
+    .use('/story', storyRouter)
+    .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
-index.use('/', indexRouter);
-index.use('/story', storyRouter);
-
-module.exports = index;
