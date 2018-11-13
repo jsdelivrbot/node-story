@@ -62,20 +62,14 @@ router.post('/', (req, res, next) => {
                 "fulfillmentText": 'Je vais raconter l\'histoire de ' + req.body.queryResult.parameters.title,
                 "fulfillmentMessages": [
                     {
+                        "imageUri": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
+                        "accessibilityText": title
+                    },
+                    {
 
-                        "text": 'Je vais raconter l\'histoire de ' + req.body.queryResult.parameters.title
-                    },  {
-                        "card": {
-                            "title": title.toUpperCase(),
-                            "subtitle": data,
-                            "imageUri": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
-                            "buttons": [
-                                {
-                                    "text": "button text",
-                                    "postback": "https://assistant.google.com/"
-                                }
-                            ]
-                        }
+                        "text": [
+                            'Je vais raconter l\'histoire de ' + req.body.queryResult.parameters.title
+                        ].concat(data.split('\n'))
                     }
                 ],
                 "source": 'StoryService'
