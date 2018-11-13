@@ -12,9 +12,9 @@ router.get('/:name', (req, res, next)  => {
 router.post('/', (req, res, next)  => {
     console.log('Dialogflow Request headers: ' + JSON.stringify(req.headers));
     console.log('Dialogflow Request body: ' + JSON.stringify(req.body));
-  console.log(req.body)
+  console.log(req.body.parameters.title)
     const message = {
-        "fulfillmentText":  'Je vais raconter l\'histoire de toto',
+        "fulfillmentText":  'Je vais raconter l\'histoire de ' +req.body.parameters.title,
         "fulfillmentMessages": [
             {
                 "card": {
