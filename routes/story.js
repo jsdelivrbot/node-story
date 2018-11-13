@@ -61,15 +61,16 @@ router.post('/', (req, res, next) => {
             const message = {
                 "fulfillmentText": 'Je vais raconter l\'histoire de ' + req.body.queryResult.parameters.title,
                 "fulfillmentMessages": [
-                    {
+                    {"image": {
                         "imageUri": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
                         "accessibilityText": title
-                    },
+                    }},
                     {
-
-                        "text": [
-                            'Je vais raconter l\'histoire de ' + req.body.queryResult.parameters.title
-                        ].concat(data.split('\n'))
+                        "text": {
+                            "text": [
+                                'Je vais raconter l\'histoire de ' + req.body.queryResult.parameters.title
+                            ].concat(data.split('\n'))
+                        }
                     }
                 ],
                 "source": 'StoryService'
