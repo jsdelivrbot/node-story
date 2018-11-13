@@ -18,32 +18,35 @@ router.post('/', (req, res, next) => {
     const title = req.body.queryResult.parameters.title.toLowerCase();
     fs.readFile(path.join(__dirname, '..', 'stories', title + '.txt'), function (err, data) {
         if (err) {
+            console.error(err)
             const message = {
-                "fulfillmentText": 'Je nài pas trouvé l\'histoire de ' + req.body.queryResult.parameters.title,
+                "fulfillmentText": 'Je n\'ai pas trouvé l\'histoire de ' + req.body.queryResult.parameters.title,
+                "source": 'StoryService'
+            };
+            res.send(message);
+        } else {
+            console.log(data)
+            const message = {
+                "fulfillmentText": 'Je vais raconter l\'histoire de ' + req.body.queryResult.parameters.title,
+                "fulfillmentMessages": [
+                    {
+                        "card": {
+                            "title": title.toUpperCase(),
+                            "subtitle": data,
+                            "imageUri": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
+                            "buttons": [
+                                {
+                                    "text": "button text",
+                                    "postback": "https://assistant.google.com/"
+                                }
+                            ]
+                        }
+                    }
+                ],
                 "source": 'StoryService'
             };
             res.send(message);
         }
-        const message = {
-            "fulfillmentText": 'Je vais raconter l\'histoire de ' + req.body.queryResult.parameters.title,
-            "fulfillmentMessages": [
-                {
-                    "card": {
-                        "title": title.toUpperCase(),
-                        "subtitle": data,
-                        "imageUri": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
-                        "buttons": [
-                            {
-                                "text": "button text",
-                                "postback": "https://assistant.google.com/"
-                            }
-                        ]
-                    }
-                }
-            ],
-            "source": 'StoryService'
-        };
-        res.send(message);
     });
 });
 
