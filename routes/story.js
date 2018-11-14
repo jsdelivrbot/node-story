@@ -57,22 +57,32 @@ router.post('/', (req, res, next) => {
             };
             res.send(message);
         } else {
-            console.log(data)
-            const message = {
-                "fulfillmentText": 'Je vais raconter l\'histoire de ' + req.body.queryResult.parameters.title,
-                "fulfillmentMessages": [
-                    {"image": {
+            console.log(data);
+            const fulfillmentMessages = [
+                {
+                    "image": {
                         "imageUri": 'https://node-story.herokuapp.com/images/' + title + '.png',
                         "accessibilityText": title
-                    }},
-                    {
-                        "text": {
-                            "text": [
-                                'Je vais raconter l\'histoire de ' + req.body.queryResult.parameters.title
-                            ].concat(data.split('\n'))
-                        }
                     }
-                ],
+                }, {
+                    "text": {
+                        "text": [
+                            'Je vais te raconter l\'histoire de ' + req.body.queryResult.parameters.title + '.'
+                        ]
+                    }
+                }];
+
+            data.split('\n').forEach(p => {
+                fulfillmentMessages.push({
+                    "text": {
+                        "text": [p]
+                    }
+                });
+            });
+
+            const message = {
+                "fulfillmentText": 'Je vais raconter l\'histoire de ' + req.body.queryResult.parameters.title,
+                "fulfillmentMessages": fulfillmentMessages,
                 "source": 'StoryService'
             };
             res.send(message);
