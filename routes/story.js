@@ -48,7 +48,7 @@ router.post('/', (req, res, next) => {
     console.log('Dialogflow Request body: ' + JSON.stringify(req.body));
     console.log(req.body.queryResult.parameters.title);
     const title = req.body.queryResult.parameters.title.toLowerCase();
-    fs.readFile(path.join(__dirname, '..', 'stories', title + '.txt'), 'utf8', function (err, data) {
+    fs.readFile(path.join(__dirname, '..', 'stories', title.replace(/ /gi, '_') + '.txt'), 'utf8', function (err, data) {
         if (err) {
             console.error(err)
             const message = {
@@ -62,7 +62,7 @@ router.post('/', (req, res, next) => {
                 "fulfillmentText": 'Je vais raconter l\'histoire de ' + req.body.queryResult.parameters.title,
                 "fulfillmentMessages": [
                     {"image": {
-                        "imageUri": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
+                        "imageUri": 'https://node-story.herokuapp.com/images/' + title + '.png',
                         "accessibilityText": title
                     }},
                     {
