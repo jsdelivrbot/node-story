@@ -20,7 +20,7 @@ router.get('/:name', (req, res, next) => {
         } else {
             console.log(data)
             const message = {
-                "fulfillmentText": 'Je vais raconter l\'histoire de ' + req.params.name,
+                "fulfillmentText": 'Je vais te raconter l\'histoire de ' + req.params.name,
                 "fulfillmentMessages": [
                     {
                         "card": {
